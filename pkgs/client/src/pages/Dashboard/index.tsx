@@ -16,7 +16,6 @@ export default function Dashboard() {
   const activeCompany = useActiveCompany();
   const token = useToken();
   const checkUserInvoices = async (token: string, companyId: string) => {
-    debugger;
     try {
       const sendInvoiceClient = new SendInvoiceClient(
         new URL("http://127.0.0.1:8080"),

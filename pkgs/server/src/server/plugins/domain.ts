@@ -14,6 +14,7 @@ import { CompanyService } from '../../modules/invoice/service/CompanyService';
 import { RecipientService } from '../../modules/invoice/service/RecipientService';
 import { ImageService } from '../../modules/image/service';
 import { LatexCompilerService } from '../../services/LatexCompilerService';
+import { LatexTemplateService } from '../../services/LatexTemplateService';
 
 export type DomainServices = {
   auth: AuthService;
@@ -21,6 +22,7 @@ export type DomainServices = {
   invoice: InvoiceService;
   user: UserService;
   latexCompiler: LatexCompilerService;
+  latexTemplate: LatexTemplateService;
 };
 
 export const DOMAIN_SERVICES_PLUGIN_NAME = 'domain';
@@ -82,6 +84,7 @@ export const domainServicesPlugin = fp(async (server) => {
       recipientService
     );
     const latexCompilerService = new LatexCompilerService(config.latexCompilerServerUrl);
+    const latexTemplateService = new LatexTemplateService();
 
     const domainServices: DomainServices = {
       auth: authService,
@@ -89,6 +92,7 @@ export const domainServicesPlugin = fp(async (server) => {
       image: imageService,
       user: userService,
       latexCompiler: latexCompilerService,
+      latexTemplate: latexTemplateService,
     };
 
     server.decorate(DOMAIN_SERVICES_PLUGIN_NAME, domainServices);
