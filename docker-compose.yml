@@ -9,5 +9,11 @@ services:
       - .env
     restart: always
 
+  latex_compiler:
+    image: 'ghcr.io/whizzes/latex_compiler:f34ed7d'
+    ports:
+      - '9000:9000'
+    restart: always
+
 volumes:
   database:
