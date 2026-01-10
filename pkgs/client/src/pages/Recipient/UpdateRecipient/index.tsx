@@ -3,7 +3,6 @@ import { useParams, useNavigate, Link } from 'react-router-dom';
 import { FaSave } from 'react-icons/fa';
 import { SendInvoiceClient } from '../../../services/SendInvoice';
 import type { Recipient } from '../../../services/SendInvoice/Invoice/RecipientClient';
-import Navbar from '../../../components/molecules/Navbar';
 import "./updateRecipients.css"
 
 export default function UpdateRecipient() {

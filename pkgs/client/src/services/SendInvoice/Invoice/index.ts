@@ -137,38 +137,6 @@ export class InvoiceClient {
         throw new Error(`Failed to create invoice: ${response.status} ${response.statusText}`);
     }
 
-    async updateInvoice(id: string, payload: UpdateInvoicePayload): Promise<Invoice> {
-        if (!id?.trim()) {
-            throw new Error('Invoice ID is required');
-        }
-
-        if (Object.keys(payload).length === 0) {
-            throw new Error('At least one field must be provided for update');
-        }
-
-        const url = new URL(this.baseUrl);
-        url.pathname = `/api/v1/invoice/${id}`;
-
-        const response = await fetch(url, {
-            method: 'PUT',
-            headers: {
-                'content-type': 'application/json'
-            },
-            body: JSON.stringify(payload),
-        });
-
-        if (response.ok) {
-            const json = await response.json();
-            return json as Invoice;
-        }
-
-        if (response.status === 404) {
-            throw new Error('Invoice not found');
-        }
-
-        throw new Error(`Failed to update invoice: ${response.status} ${response.statusText}`);
-    }
-
     async deleteInvoice(id: string): Promise<void> {
         if (!id?.trim()) {
             throw new Error('Invoice ID is required');
@@ -190,6 +158,43 @@ export class InvoiceClient {
         }
 
         throw new Error(`Failed to delete invoice: ${response.status} ${response.statusText}`);
+    }
+
+    async printInvoice(invoiceId: string): Promise<void> {
+        if (!invoiceId?.trim()) {
+            throw new Error('Invoice ID is required');
+        }
+
+        const url = new URL(this.baseUrl);
+        url.pathname = `/api/v1/invoice/${invoiceId}/pdf`;
+
+        const response = await fetch(url, {
+            method: 'POST',
+        });
+
+        if (response.ok) {
+            const blob = await response.blob();
+            const urlBlob = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+
+            a.href = urlBlob;
+            a.download = `${invoiceId}.pdf`;
+            document.body.appendChild(a);
+            a.click();
+
+            setTimeout(() => {
+                URL.revokeObjectURL(urlBlob);
+                document.body.removeChild(a);
+            }, 100);
+
+            return;
+        }
+
+        if (response.status === 404) {
+            throw new Error('Invoice item not found');
+        }
+
+        throw new Error(`Failed to print invoice: ${response.status} ${response.statusText}`);
     }
 
     //InvoiceItem Client ----------------------------------------------------------------------------------------------------------------------------
