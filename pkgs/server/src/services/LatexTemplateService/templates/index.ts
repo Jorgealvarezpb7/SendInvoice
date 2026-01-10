@@ -1,9 +1,7 @@
-import { LATEX_DEFAULT_TEMPLATE } from './default';
-import { LATEX_SIMPLE_TEMPLATE } from './simple';
+import { DEFAULT_TEMPLATE } from './default';
 
-export type TemplateKey = 'default' | 'simple';
+export type TemplateKey = 'default';
 
 export const Templates: Record<TemplateKey, string> = {
-    'default': LATEX_DEFAULT_TEMPLATE,
-    'simple': LATEX_SIMPLE_TEMPLATE,
+    'default': DEFAULT_TEMPLATE,
 }
