@@ -7,9 +7,9 @@ export class LatexCompilerService {
     this.addr = addr;
   }
 
-  async compile(latex: string): Promise<Buffer> {
-    const pdf = await axios.post(`${this.addr}/api/v0/compile`, {
-      text: latex,
+  async compile(html: string): Promise<Buffer> {
+    const pdf = await axios.post(`${this.addr}/api/v0/print`, {
+      html,
     }, {
       responseType: 'arraybuffer'
     });

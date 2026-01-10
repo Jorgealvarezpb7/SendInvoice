@@ -4,8 +4,8 @@ import type { Invoice } from '../../../../services/SendInvoice/Invoice';
 import { SendInvoiceClient } from '../../../../services/SendInvoice';
 import { Table } from '../../../../components/atoms/Table';
 import { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { FaEdit, FaEraser, FaPlus } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
+import { FaEraser, FaPlus, FaSave } from 'react-icons/fa';
 
 
 type UserDashboardProps = {
@@ -17,8 +17,6 @@ export default function UserDashboard({ invoices: initialInvoices }: UserDashboa
     const [invoices, setInvoices] = useState<Invoice[]>(initialInvoices);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string>('');
-
-    const navigate = useNavigate();
 
     const loadInvoices = async () => {
         try {
@@ -45,9 +43,20 @@ export default function UserDashboard({ invoices: initialInvoices }: UserDashboa
         }
     }, []);
 
-    const handleUpdateInvoice = (id: string) => {
-        navigate(`/update-invoice/${id}`);
-    };
+    const handlePrintInvoice = async (id: string) => {
+        if (!window.confirm('Are you sure you want to save this invoice?')) {
+            return
+        }
+
+        try {
+            const sendInvoiceClient = new SendInvoiceClient(new URL("http://127.0.0.1:8080"));
+            await sendInvoiceClient.invoice.printInvoice(id);
+
+        } catch (error) {
+            console.error('Error saving invoice:', error);
+            setError('Error saving invoice');
+        }
+    }
 
     const handleDeleteInvoice = async (id: string) => {
         if (!window.confirm('Are you sure you want to delete this invoice?')) {
@@ -71,7 +80,7 @@ export default function UserDashboard({ invoices: initialInvoices }: UserDashboa
     }
 
     const prepareTableData = () => {
-        const headers = ['Number', 'Date', 'Due Date', 'Subtotal', 'Tax', 'Total', 'Notes', 'Update', 'Delete'];
+        const headers = ['Number', 'Date', 'Due Date', 'Subtotal', 'Tax', 'Total', 'Notes', 'Save', 'Delete'];
 
         const data = invoices.map(invoice => ({
             'Number': invoice.invoiceNumber,
@@ -81,13 +90,13 @@ export default function UserDashboard({ invoices: initialInvoices }: UserDashboa
             'Tax': formatCurrency(invoice.tax),
             'Total': formatCurrency(invoice.total),
             'Notes': invoice.notes || 'No notes',
-            'Update': (
+            'Save': (
                 <button
-                    className="update-button"
-                    onClick={() => handleUpdateInvoice(invoice.id)}
+                    className="save-button"
+                    onClick={() => handlePrintInvoice(invoice.id)}
                 >
-                    <FaEdit />
-                    Update
+                    <FaSave />
+                    Save
                 </button>
             ),
             'Delete': (

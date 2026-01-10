@@ -286,8 +286,8 @@ export const apiV1InvoiceRouter: FastifyPluginCallback = (fastify: FastifyInstan
           return reply.status(400).send({ message: 'Invoice not found' });
         }
 
-        const latex = fastify.domain.latexTemplate.build('simple', invoice);
-        const bytes = await fastify.domain.latexCompiler.compile(latex);
+        const html = fastify.domain.latexTemplate.build('default', invoice);
+        const bytes = await fastify.domain.latexCompiler.compile(html);
 
         return reply.status(200).send(bytes);
       } catch (err) {
