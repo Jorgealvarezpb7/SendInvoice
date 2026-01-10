@@ -12,10 +12,21 @@ import { Invoice } from './Invoice';
 
 import type { Relation } from 'typeorm';
 
+export interface IInvoiceItem {
+  id: string;
+  amount: number;
+  description: string;
+  quantity: number;
+  unitPrice: number;
+  createdAt: Date;
+  updatedAt: Date;
+  deletedAt?: Date;
+}
+
 @Entity({
   name: 'invoice_item'
 })
-export class InvoiceItem {
+export class InvoiceItem implements IInvoiceItem {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 

@@ -16,11 +16,32 @@ import { User } from '../../user';
 import { InvoiceItem } from './InvoiceItem';
 
 import type { Relation } from 'typeorm';
+import type { IInvoiceItem } from './InvoiceItem';
+
+export interface IInvoice {
+  id: string;
+  invoiceNumber: string;
+  subtotal: number;
+  tax: number;
+  total: number;
+  date: Date;
+  dueDate: Date;
+  notes: string;
+  createdAt: Date;
+  updatedAt: Date;
+  billToAddress: Address;
+  shipToAddress: Address;
+  user: User;
+  items: IInvoiceItem[];
+  company: Company;
+  recipient: Recipient;
+  deletedAt?: Date;
+}
 
 @Entity({
   name: 'invoice'
 })
-export class Invoice {
+export class Invoice implements IInvoice {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 

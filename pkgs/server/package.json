@@ -3,7 +3,8 @@
   "module": "./src/main.ts",
   "type": "module",
   "scripts": {
-    "format": "prettier --write . && eslint . --fix"
+    "format": "prettier --write . && eslint . --fix",
+    "test": "vitest"
   },
   "peerDependencies": {
     "typescript": "^5.0.0"
@@ -29,6 +30,7 @@
     "eslint": "^9.18.0",
     "eslint-config-prettier": "^9.1.0",
     "prettier": "^3.4.2",
-    "typescript-eslint": "^8.37.0"
+    "typescript-eslint": "^8.37.0",
+    "vitest": "^4.0.12"
   }
 }
