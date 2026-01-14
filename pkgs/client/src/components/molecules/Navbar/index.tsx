@@ -62,7 +62,7 @@ export default function Navbar() {
           onClick={toggleCompanyDropdown}
         >
           <FaBuilding className="company-icon" />
-          {activeCompany ? activeCompany.name : 'No Company Selected'}
+          {activeCompany ? activeCompany.name : 'No Sender Selected'}
           <FaChevronDown
             className={`chevron-icon ${isCompanyDropdownOpen ? "chevron-open" : ""}`}
           />
@@ -72,10 +72,10 @@ export default function Navbar() {
           <div className="company-dropdown-menu">
             <div className="company-card-dropdown">
               <h3 className="company-name-dropdown">
-                {activeCompany ? activeCompany.name : 'No Company Selected'}
+                {activeCompany ? activeCompany.name : 'No Sender Selected'}
               </h3>
               <p className="company-id-dropdown">
-                {activeCompany ? `ID: ${activeCompany.id}` : 'Please select a company'}
+                {activeCompany ? `ID: ${activeCompany.id}` : 'Please select a sender'}
               </p>
 
               <div className="company-list-dropdown">
@@ -90,7 +90,7 @@ export default function Navbar() {
                     </button>
                   ))
                 ) : (
-                  <p className="no-companies-text">No companies available.</p>
+                  <p className="no-companies-text">No sender available.</p>
                 )}
               </div>
 
@@ -102,7 +102,7 @@ export default function Navbar() {
                 }}
               >
                 <FaBuilding className="button-icon" />
-                Create Company
+                Create Sender
               </Button>
             </div>
           </div>

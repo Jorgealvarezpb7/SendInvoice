@@ -1,5 +1,6 @@
 .invoice-layout {
   height: 100vh;
+  padding: 1rem;
 }
 
 .content-area {
@@ -14,9 +15,9 @@
 
 .invoice-button {
   display: flex;
-  flex-direction: row;
   margin: 1rem;
   gap: 1rem;
+  flex-wrap: wrap;
 }
 
 .dropdown-list {
@@ -28,6 +29,7 @@
   background: white;
   position: absolute;
   z-index: 10;
+  max-width: 90vw;
 }
 
 .dropdown-item {
@@ -44,9 +46,7 @@
   display: flex;
   gap: 1rem;
   align-items: center;
-  .h3{
-    margin-right: 1rem;
-  }
+  flex-wrap: wrap;
 }
 
 .modal-form input {
@@ -55,6 +55,9 @@
   background-color: #ece8e8;
   border: none;
   outline-color: blueviolet;
+  padding: 0.5rem;
+  flex: 1;
+  min-width: 200px;
 }
 
 .modal-buttons {
@@ -62,11 +65,14 @@
   justify-content: flex-end;
   gap: 1rem;
   margin-top: 1rem;
+  flex-wrap: wrap;
 }
 
 .invoice-table {
   display: flex;
   justify-content: center;
+  overflow-x: auto;
+  margin-bottom: 1rem;
 }
 
 .invoice-totals {
@@ -77,10 +83,76 @@
   border-radius: 0.6rem;
   margin-bottom: 1rem;
   padding: 1rem;
+  flex-wrap: wrap; 
 }
 
 .note-button, .note-textarea{
   margin-bottom: 1rem;
   width: 100%;
+  box-sizing: border-box;
 }
 
+.note-textarea {
+  padding: 0.75rem;
+  border-radius: 0.6rem;
+  border: 1px solid #ece8e8;
+  resize: vertical;
+  min-height: 100px;
+}
+
+.onboarding {
+  margin: 1.5rem;
+  padding: 1.5rem;
+  max-width: 720px;
+  background: #f9fafb;
+  border: 1px solid #ece8e8;
+  border-radius: 0.8rem;
+}
+
+.onboarding-title {
+  margin: 0 0 0.5rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.onboarding-text {
+  margin-bottom: 1rem;
+  font-size: 0.95rem;
+  color: #555;
+}
+
+.onboarding-steps {
+  padding: 0;
+  margin: 0;
+}
+
+.onboarding-steps li {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  margin-bottom: 0.5rem;
+  font-size: 0.95rem;
+  background: #fff;
+  border: 1px solid #ece8e8;
+  border-radius: 0.6rem;
+}
+
+.onboarding-steps li::before {
+  content: "✓";
+  width: 24px;
+  height: 24px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: blueviolet;
+  color: #fff;
+  font-size: 0.8rem;
+}
+
+@media (max-width: 600px) {
+  .onboarding {
+    padding: 1rem;
+    margin: 1rem;
+  }
+}
