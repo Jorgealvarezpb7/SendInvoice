@@ -101,7 +101,7 @@ export default function SignUp() {
               <Button
                 className='button_form'
                 type='submit'>
-                Sing Up
+                Sign Up
               </Button>
             </Form>
           </div>

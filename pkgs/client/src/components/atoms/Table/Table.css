@@ -1,7 +1,7 @@
 .table {
-  width: 80%;
+  max-width: 1200px;
   border-collapse: collapse;
-  margin: 20px;
+  margin: 20px auto;
   background-color: #fff;
   border-radius: 0.6rem;
   overflow: hidden;
@@ -29,4 +29,28 @@
 
 .table tr:last-child td {
   border-bottom: none;
+}
+
+@media screen and (max-width: 768px) {
+  .table {
+    width: 95%;
+    font-size: 14px;
+  }
+  
+  .table th,
+  .table td {
+    padding: 8px 12px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .table {
+    width: 100%;
+    font-size: 12px;
+  }
+  
+  .table th,
+  .table td {
+    padding: 6px 8px;
+  }
 }
