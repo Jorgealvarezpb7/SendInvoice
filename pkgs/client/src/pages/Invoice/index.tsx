@@ -18,7 +18,6 @@ export default function Invoice() {
   const activeCompany = useActiveCompany();
   const user = useUser();
 
-  // falta setear los datos del usuario que crea el invoice (address, firma, logo)
   const [showNote, setShowNote] = useState(false);
   const [note, setNote] = useState("");
 

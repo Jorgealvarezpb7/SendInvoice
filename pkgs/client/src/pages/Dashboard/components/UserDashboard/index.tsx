@@ -6,6 +6,8 @@ import { Table } from '../../../../components/atoms/Table';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FaEraser, FaPlus, FaSave } from 'react-icons/fa';
+import { useToken } from '../../../../hooks/user';
+import { useActiveCompany } from '../../../../hooks/company';
 
 
 type UserDashboardProps = {
@@ -13,18 +15,26 @@ type UserDashboardProps = {
 };
 
 export default function UserDashboard({ invoices: initialInvoices }: UserDashboardProps) {
-
+    const token = useToken(); 
+    const activeCompany = useActiveCompany();
+    
     const [invoices, setInvoices] = useState<Invoice[]>(initialInvoices);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string>('');
 
     const loadInvoices = async () => {
+
+        if (!token || !activeCompany?.id) {
+            setError('Missing authentication or company');
+            return;
+        }
+
         try {
             setLoading(true);
             setError('');
 
             const sendInvoiceClient = new SendInvoiceClient(new URL("http://127.0.0.1:8080"));
-            const invoiceList = await sendInvoiceClient.invoice.getInvoices();
+            const invoiceList = await sendInvoiceClient.invoice.getInvoices(token, activeCompany.id);
 
             console.log('Loaded Invoices:', invoiceList);
             setInvoices(invoiceList);

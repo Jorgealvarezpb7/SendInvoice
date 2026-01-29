@@ -19,7 +19,7 @@ export type CreateInvoiceDto = {
   shipToAddressId: string;
   userId: string;
   companyId: string;
-  recipientCompanyId: string;
+  recipientId: string;
   items: CreateInvoiceItemDto[];
 };
 
@@ -62,7 +62,7 @@ export class InvoiceService {
       where: {
         company: { id: query.companyId }
       },
-      relations: ['billToAddress', 'shipToAddress', 'company', 'recipient', 'user', 'items'],
+      relations: ['billToAddress', 'shipToAddress', 'company', 'recipient', 'user', 'items' , 'company.address', 'company.logo', 'company.signature', 'recipient.address'],
       order: { createdAt: 'DESC' }
     });
 
@@ -72,7 +72,7 @@ export class InvoiceService {
   async findById(id: string): Promise<Invoice | null> {
     const invoice = await this.invoiceRepository.findOne({
       where: { id },
-      relations: ['billToAddress', 'shipToAddress', 'company', 'recipient', 'user', 'items']
+      relations: ['billToAddress', 'shipToAddress', 'company', 'recipient', 'user', 'items', 'company.address', 'company.logo', 'company.signature', 'recipient.address']
     });
 
     return invoice || null;
@@ -81,7 +81,7 @@ export class InvoiceService {
   async findByUserId(userId: string): Promise<Invoice[]> {
     const invoice = await this.invoiceRepository.find({
       where: { user: { id: userId } },
-      relations: ['billToAddress', 'shipToAddress', 'company', 'recipient', 'user', 'items'],
+      relations: ['billToAddress', 'shipToAddress', 'company', 'recipient', 'user', 'items', 'company.address', 'company.logo', 'company.signature', 'recipient.address'],
       order: { createdAt: 'DESC' }
     });
     return invoice;
@@ -90,7 +90,7 @@ export class InvoiceService {
   async findByCompanyId(companyId: string): Promise<Invoice[]> {
     const invoice = await this.invoiceRepository.find({
       where: { user: { id: companyId } },
-      relations: ['billToAddress', 'shipToAddress', 'company', 'recipient', 'user', 'items'],
+      relations: ['billToAddress', 'shipToAddress', 'company', 'recipient', 'user', 'items', 'company.address', 'company.logo', 'company.signature', 'recipient.address'],
       order: { createdAt: 'DESC' }
     });
     return invoice;
@@ -101,7 +101,7 @@ export class InvoiceService {
       this.address.findById(dto.billToAddressId),
       this.address.findById(dto.shipToAddressId),
       this.company.findById(dto.companyId),
-      this.recipient.findById(dto.recipientCompanyId)
+      this.recipient.findById(dto.recipientId)
     ]);
 
     if (!billToAddress) throw new Error('Bill to address not found');
@@ -120,11 +120,11 @@ export class InvoiceService {
       date,
       dueDate,
       notes: dto.notes,
-      billToAddress: { id: dto.billToAddressId },
-      shipToAddress: { id: dto.shipToAddressId },
+      billToAddress: billToAddress,     
+      shipToAddress: shipToAddress,    
       user: { id: dto.userId },
-      company: { id: dto.companyId },
-      recipientCompany: { id: dto.recipientCompanyId },
+      company: company,                
+      recipient: recipient, 
       items: dto.items.map((item) => ({
         amount: item.amount,
         description: item.description,

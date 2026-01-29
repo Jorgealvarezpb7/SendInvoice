@@ -2,5 +2,8 @@
   "name": "@SendInvoice/SendInvoice",
   "workspaces": [
     "pkgs/*"
-  ]
+  ],
+  "dependencies": {
+    "sharp": "^0.34.5"
+  }
 }

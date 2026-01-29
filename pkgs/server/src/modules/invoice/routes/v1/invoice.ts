@@ -273,7 +273,7 @@ export const apiV1InvoiceRouter: FastifyPluginCallback = (fastify: FastifyInstan
   );
 
   // Route to compile invoice to PDF
-  fastify.post<{ Params: Params }>( // TODO: Add parameter for template name
+  fastify.post<{ Params: Params }>( 
     '/:id/pdf',
     { preHandler: [validateUUID()] },
     async (request, reply) => {
@@ -286,7 +286,7 @@ export const apiV1InvoiceRouter: FastifyPluginCallback = (fastify: FastifyInstan
           return reply.status(400).send({ message: 'Invoice not found' });
         }
 
-        const html = fastify.domain.latexTemplate.build('default', invoice);
+        const html = await fastify.domain.latexTemplate.build('default', invoice);
         const bytes = await fastify.domain.latexCompiler.compile(html);
 
         return reply.status(200).send(bytes);
